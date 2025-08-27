@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alimentos Frescos",
+  title: "Fresh Food",
   description: "Plataforma informativa sobre alimentos frescos e sazonais",
 };
 

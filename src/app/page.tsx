@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <section className="prose prose-invert max-w-none">
-      <h1 className="text-3xl font-bold tracking-tight">Alimentos Frescos</h1>
+      <h1 className="text-3xl font-bold tracking-tight">Fresh Food</h1>
       <p>
         Um jeito simples de descobrir quais frutas e verduras estão frescas por
         mês, montar sua lista de compras e copiar ou imprimir para levar com

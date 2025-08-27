@@ -34,6 +34,7 @@ export default function Header() {
           <NavLink href="/" label="Início" />
           <NavLink href="/shopping-list" label="Lista de Compras" />
           <NavLink href="/seasonal" label="Sazonal" />
+          <NavLink href="/monthly" label="Mensal" />
         </nav>
       </div>
     </header>

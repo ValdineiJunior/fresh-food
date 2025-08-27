@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="mx-auto max-w-5xl px-4 py-3 text-sm text-foreground/70 flex items-center justify-between">
         <p>
           © {new Date().getFullYear()} Fresh Food. Feito para ajudar você a
-          comer de forma sazonal.
+          comer de forma saudável e sustentável.
         </p>
       </div>
     </footer>

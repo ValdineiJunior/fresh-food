@@ -3,8 +3,8 @@ export default function Footer() {
     <footer className="w-full border-t border-foreground/10 fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto max-w-5xl px-4 py-3 text-sm text-foreground/70 flex items-center justify-between">
         <p>
-          © {new Date().getFullYear()} Fresh Food. Built to help you eat
-          seasonal.
+          © {new Date().getFullYear()} Alimentos Frescos. Feito para ajudar você
+          a comer de forma sazonal.
         </p>
       </div>
     </footer>

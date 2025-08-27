@@ -31,9 +31,9 @@ export default function ShoppingListPage() {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Shopping List</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Lista de Compras</h1>
         <p className="text-foreground/80">
-          Add fruits and vegetables, then copy or print your list.
+          Adicione frutas e verduras, depois copie ou imprima sua lista.
         </p>
       </header>
 
@@ -42,20 +42,20 @@ export default function ShoppingListPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && addItem()}
-          placeholder="Add an item (e.g., apples)"
+          placeholder="Adicione um item (ex.: maçãs)"
           className="flex-1 rounded-md border border-foreground/20 bg-transparent px-3 py-2 outline-none focus:border-foreground/40"
         />
         <button
           onClick={addItem}
           className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90"
         >
-          Add
+          Adicionar
         </button>
       </div>
 
       <ul className="divide-y divide-foreground/10 border border-foreground/10 rounded-md">
         {items.length === 0 && (
-          <li className="p-4 text-sm text-foreground/70">No items yet.</li>
+          <li className="p-4 text-sm text-foreground/70">Nenhum item ainda.</li>
         )}
         {items.map((it) => (
           <li key={it.id} className="flex items-center justify-between p-3">
@@ -63,9 +63,9 @@ export default function ShoppingListPage() {
             <button
               onClick={() => removeItem(it.id)}
               className="text-sm text-foreground/70 hover:text-foreground"
-              aria-label={`Remove ${it.name}`}
+              aria-label={`Remover ${it.name}`}
             >
-              Remove
+              Remover
             </button>
           </li>
         ))}
@@ -76,13 +76,13 @@ export default function ShoppingListPage() {
           onClick={copyList}
           className="rounded-md border border-foreground/20 px-4 py-2 text-sm hover:bg-foreground/10"
         >
-          Copy
+          Copiar
         </button>
         <button
           onClick={printList}
           className="rounded-md border border-foreground/20 px-4 py-2 text-sm hover:bg-foreground/10"
         >
-          Print
+          Imprimir
         </button>
       </div>
     </section>

@@ -28,12 +28,12 @@ export default function Header() {
     <header className="w-full border-b border-foreground/10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
         <Link href="/" className="font-semibold tracking-tight text-lg">
-          Fresh Food
+          Alimentos Frescos
         </Link>
         <nav className="flex items-center gap-2">
-          <NavLink href="/" label="Home" />
-          <NavLink href="/shopping-list" label="Shopping List" />
-          <NavLink href="/seasonal" label="Seasonal" />
+          <NavLink href="/" label="Início" />
+          <NavLink href="/shopping-list" label="Lista de Compras" />
+          <NavLink href="/seasonal" label="Sazonal" />
         </nav>
       </div>
     </header>

@@ -38,6 +38,8 @@ export default function ShoppingListPage() {
   const [showNewListForm, setShowNewListForm] = useState(false);
   const [newListName, setNewListName] = useState("");
   const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const [filteredTags, setFilteredTags] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Load lists from localStorage on mount
   useEffect(() => {
@@ -65,7 +67,24 @@ export default function ShoppingListPage() {
       ...seasonalItems.greensAndHerbs,
     ];
     setAvailableTags(allItems);
+    setFilteredTags(allItems);
   }, []);
+
+  // Filter tags based on search term with debouncing
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchTerm.trim() === "") {
+        setFilteredTags(availableTags);
+      } else {
+        const filtered = availableTags.filter((tag) =>
+          tag.toLowerCase().startsWith(searchTerm.toLowerCase().trim())
+        );
+        setFilteredTags(filtered);
+      }
+    }, 300); // 300ms delay
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, availableTags]);
 
   // Save lists to localStorage during rendering
   const [prevLists, setPrevLists] = useState(lists);
@@ -165,6 +184,15 @@ export default function ShoppingListPage() {
 
       if (allSeasonalItems.includes(itemToRemove.name)) {
         setAvailableTags((prev) => [...prev, itemToRemove.name]);
+        // Also update filtered tags if the search term matches
+        if (
+          searchTerm.trim() === "" ||
+          itemToRemove.name
+            .toLowerCase()
+            .startsWith(searchTerm.toLowerCase().trim())
+        ) {
+          setFilteredTags((prev) => [...prev, itemToRemove.name]);
+        }
       }
     }
   }
@@ -186,6 +214,8 @@ export default function ShoppingListPage() {
 
     // Remove the tag from available tags
     setAvailableTags((prev) => prev.filter((t) => t !== tag));
+    // Also remove from filtered tags
+    setFilteredTags((prev) => prev.filter((t) => t !== tag));
   }
 
   function copyList() {
@@ -360,8 +390,29 @@ export default function ShoppingListPage() {
             <h4 className="text-sm font-medium text-foreground/80">
               Adicionar rapidamente:
             </h4>
+
+            {/* Search Input */}
+            <div className="relative">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Buscar itens..."
+                className="w-full rounded-md border border-foreground/20 bg-transparent px-3 py-2 pr-8 text-sm outline-none focus:border-foreground/40"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/60"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* Tags Display */}
             <div className="flex flex-wrap gap-2">
-              {availableTags
+              {filteredTags
                 .slice()
                 .sort()
                 .map((tag) => (
@@ -374,6 +425,12 @@ export default function ShoppingListPage() {
                   </button>
                 ))}
             </div>
+
+            {filteredTags.length === 0 && searchTerm && (
+              <p className="text-sm text-foreground/60 text-center py-2">
+                Nenhum item encontrado para &quot;{searchTerm}&quot;
+              </p>
+            )}
           </div>
 
           <ul className="divide-y divide-foreground/10 border border-foreground/10 rounded-md">

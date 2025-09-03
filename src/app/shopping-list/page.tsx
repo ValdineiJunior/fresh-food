@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { getAllSeasonalItems } from "@/data/seasonal";
 
 type Item = { id: string; name: string };
 
@@ -36,6 +37,7 @@ export default function ShoppingListPage() {
   const [editingName, setEditingName] = useState("");
   const [showNewListForm, setShowNewListForm] = useState(false);
   const [newListName, setNewListName] = useState("");
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
 
   // Load lists from localStorage on mount
   useEffect(() => {
@@ -53,6 +55,17 @@ export default function ShoppingListPage() {
       }
     }
   }, [selectedListId]);
+
+  // Load seasonal items for tags
+  useEffect(() => {
+    const seasonalItems = getAllSeasonalItems();
+    const allItems = [
+      ...seasonalItems.fruits,
+      ...seasonalItems.legumes,
+      ...seasonalItems.greensAndHerbs,
+    ];
+    setAvailableTags(allItems);
+  }, []);
 
   // Save lists to localStorage during rendering
   const [prevLists, setPrevLists] = useState(lists);
@@ -130,6 +143,9 @@ export default function ShoppingListPage() {
   function removeItem(itemId: string) {
     if (!selectedList) return;
 
+    // Find the item being removed to check if it's a tag
+    const itemToRemove = selectedList.items.find((item) => item.id === itemId);
+
     setLists((prev) =>
       prev.map((list) =>
         list.id === selectedListId
@@ -137,6 +153,39 @@ export default function ShoppingListPage() {
           : list
       )
     );
+
+    // If the removed item was one of the seasonal items, add it back to available tags
+    if (itemToRemove) {
+      const seasonalItems = getAllSeasonalItems();
+      const allSeasonalItems = [
+        ...seasonalItems.fruits,
+        ...seasonalItems.legumes,
+        ...seasonalItems.greensAndHerbs,
+      ];
+
+      if (allSeasonalItems.includes(itemToRemove.name)) {
+        setAvailableTags((prev) => [...prev, itemToRemove.name]);
+      }
+    }
+  }
+
+  function addItemFromTag(tag: string) {
+    if (!selectedList) return;
+
+    // Add the tag as an item to the selected list
+    setLists((prev) =>
+      prev.map((list) =>
+        list.id === selectedListId
+          ? {
+              ...list,
+              items: [{ id: crypto.randomUUID(), name: tag }, ...list.items],
+            }
+          : list
+      )
+    );
+
+    // Remove the tag from available tags
+    setAvailableTags((prev) => prev.filter((t) => t !== tag));
   }
 
   function copyList() {
@@ -304,6 +353,27 @@ export default function ShoppingListPage() {
             >
               Adicionar
             </button>
+          </div>
+
+          {/* Quick Add Tags */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-foreground/80">
+              Adicionar rapidamente:
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {availableTags
+                .slice()
+                .sort()
+                .map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => addItemFromTag(tag)}
+                    className="px-3 py-1 text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
+                  >
+                    {tag}
+                  </button>
+                ))}
+            </div>
           </div>
 
           <ul className="divide-y divide-foreground/10 border border-foreground/10 rounded-md">

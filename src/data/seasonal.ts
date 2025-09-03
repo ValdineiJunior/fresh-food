@@ -562,3 +562,22 @@ export const seasonalByMonth: Record<string, SeasonalMonth> = {
 export function getSeasonal(month: number): SeasonalMonth | undefined {
   return seasonalByMonth[keyOf(month)];
 }
+
+// Get all unique items across all seasons
+export function getAllSeasonalItems() {
+  const allFruits = new Set<string>();
+  const allLegumes = new Set<string>();
+  const allGreensAndHerbs = new Set<string>();
+
+  Object.values(seasonalByMonth).forEach((monthData) => {
+    monthData.fruits.forEach((fruit) => allFruits.add(fruit));
+    monthData.legumes.forEach((legume) => allLegumes.add(legume));
+    monthData.greensAndHerbs.forEach((green) => allGreensAndHerbs.add(green));
+  });
+
+  return {
+    fruits: Array.from(allFruits).sort(),
+    legumes: Array.from(allLegumes).sort(),
+    greensAndHerbs: Array.from(allGreensAndHerbs).sort(),
+  };
+}

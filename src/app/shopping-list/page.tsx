@@ -183,7 +183,13 @@ export default function ShoppingListPage() {
       ];
 
       if (allSeasonalItems.includes(itemToRemove.name)) {
-        setAvailableTags((prev) => [...prev, itemToRemove.name]);
+        setAvailableTags((prev) => {
+          // Only add if not already present
+          if (!prev.includes(itemToRemove.name)) {
+            return [...prev, itemToRemove.name];
+          }
+          return prev;
+        });
         // Also update filtered tags if the search term matches
         if (
           searchTerm.trim() === "" ||
@@ -191,7 +197,13 @@ export default function ShoppingListPage() {
             .toLowerCase()
             .startsWith(searchTerm.toLowerCase().trim())
         ) {
-          setFilteredTags((prev) => [...prev, itemToRemove.name]);
+          setFilteredTags((prev) => {
+            // Only add if not already present
+            if (!prev.includes(itemToRemove.name)) {
+              return [...prev, itemToRemove.name];
+            }
+            return prev;
+          });
         }
       }
     }

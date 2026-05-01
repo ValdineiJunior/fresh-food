@@ -1,23 +1,74 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Nunito } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
 import { Analytics } from "@vercel/analytics/next";
+import { getSiteUrl, siteDescription, siteName } from "@/lib/site";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700"],
 });
+
+const siteUrl = getSiteUrl();
+
+export const viewport: Viewport = {
+  themeColor: "#f2f6ef",
+};
 
 export const metadata: Metadata = {
-  title: "Fresh Food",
-  description: "Plataforma informativa sobre alimentos frescos e sazonais",
+  metadataBase: new URL(siteUrl),
+  manifest: "/site.webmanifest",
+  title: {
+    default: `${siteName} — Frutas, legumes e verduras da estação`,
+    template: `%s | ${siteName}`,
+  },
+  description: siteDescription,
+  keywords: [
+    "alimentos frescos",
+    "frutas da estação",
+    "legumes e verduras",
+    "sazonalidade Brasil",
+    "lista de compras saudável",
+    "hortifruti",
+    "comida saudável",
+  ],
+  authors: [{ name: siteName }],
+  creator: siteName,
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: siteUrl,
+    siteName,
+    title: `${siteName} — Alimentos frescos e lista de compras`,
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteName} — Alimentos frescos e lista de compras`,
+    description: siteDescription,
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -25,13 +76,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteName,
+    description: siteDescription,
+    url: siteUrl,
+    inLanguage: "pt-BR",
+    publisher: {
+      "@type": "Organization",
+      name: siteName,
+      url: siteUrl,
+    },
+  };
+
   return (
     <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${nunito.variable} ${fraunces.variable} ${nunito.className} antialiased min-h-dvh flex flex-col`}
       >
+        <JsonLd data={jsonLd} />
         <Header />
-        <main className="mx-auto max-w-5xl px-4 py-8 pb-20">{children}</main>
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 pb-28">
+          {children}
+        </main>
         <Footer />
         <Analytics />
       </body>

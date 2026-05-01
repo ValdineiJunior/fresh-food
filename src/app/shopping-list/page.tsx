@@ -252,18 +252,19 @@ export default function ShoppingListPage() {
     return (
       <section className="space-y-6">
         <header className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">
-            Lista de Compras
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">
+            Lista de compras
           </h1>
-          <p className="text-foreground/80">
+          <p className="text-muted">
             Crie sua primeira lista de compras.
           </p>
         </header>
         <button
+          type="button"
           onClick={() => setShowNewListForm(true)}
-          className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90"
+          className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-hover"
         >
-          Criar Primeira Lista
+          Criar primeira lista
         </button>
       </section>
     );
@@ -272,49 +273,56 @@ export default function ShoppingListPage() {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Lista de Compras</h1>
-        <p className="text-foreground/80">
-          Gerencie suas listas de compras e adicione frutas e verduras.
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">
+          Lista de compras
+        </h1>
+        <p className="text-muted">
+          Gerencie suas listas e adicione frutas, legumes e verduras — com
+          sugestões da safra.
         </p>
       </header>
 
       {/* Lists Management */}
-      <div className="space-y-4">
+      <div className="space-y-4 no-print">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Suas Listas</h2>
+          <h2 className="text-lg font-semibold text-foreground">Suas listas</h2>
           <button
+            type="button"
             onClick={() => setShowNewListForm(true)}
-            className="rounded-md bg-foreground text-background px-3 py-1 text-sm font-medium hover:opacity-90"
+            className="rounded-xl bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-hover"
           >
-            Nova Lista
+            Nova lista
           </button>
         </div>
 
         {/* Lists Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-foreground/10">
+        <div className="flex flex-wrap gap-2 border-b border-border">
           {lists.map((list) => (
             <div key={list.id} className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={() => setSelectedListId(list.id)}
-                className={`px-3 py-2 rounded-t-md text-sm font-medium transition-colors ${
+                className={`rounded-t-lg px-3 py-2 text-sm font-semibold transition-colors ${
                   selectedListId === list.id
-                    ? "bg-foreground text-background"
-                    : "text-foreground/80 hover:text-foreground hover:bg-foreground/10"
+                    ? "bg-primary text-white shadow-sm"
+                    : "text-muted hover:bg-primary-muted hover:text-foreground"
                 }`}
               >
                 {list.name}
               </button>
               <button
+                type="button"
                 onClick={() => startEditingList(list.id)}
-                className="text-xs text-foreground/60 hover:text-foreground"
+                className="text-xs text-muted hover:text-foreground"
                 aria-label={`Editar ${list.name}`}
               >
                 ✏️
               </button>
               {lists.length > 1 && (
                 <button
+                  type="button"
                   onClick={() => deleteList(list.id)}
-                  className="text-xs text-red-500 hover:text-red-700"
+                  className="text-xs text-red-600 hover:text-red-800"
                   aria-label={`Deletar ${list.name}`}
                 >
                   🗑️
@@ -327,28 +335,30 @@ export default function ShoppingListPage() {
 
       {/* New List Form */}
       {showNewListForm && (
-        <div className="rounded-lg border border-foreground/10 p-4 bg-foreground/5">
-          <div className="flex gap-2">
+        <div className="no-print rounded-xl border border-border bg-surface-muted p-4">
+          <div className="flex flex-wrap gap-2">
             <input
               value={newListName}
               onChange={(e) => setNewListName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && createNewList()}
               placeholder="Nome da nova lista"
-              className="flex-1 rounded-md border border-foreground/20 bg-transparent px-3 py-2 outline-none focus:border-foreground/40"
+              className="min-w-[12rem] flex-1 rounded-xl border border-border bg-surface px-3 py-2 text-sm outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
               autoFocus
             />
             <button
+              type="button"
               onClick={createNewList}
-              className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90"
+              className="rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-hover"
             >
               Criar
             </button>
             <button
+              type="button"
               onClick={() => {
                 setShowNewListForm(false);
                 setNewListName("");
               }}
-              className="rounded-md border border-foreground/20 px-4 py-2 text-sm hover:bg-foreground/10"
+              className="rounded-xl border border-border bg-surface px-4 py-2 text-sm font-medium transition hover:bg-surface-muted"
             >
               Cancelar
             </button>
@@ -358,27 +368,29 @@ export default function ShoppingListPage() {
 
       {/* Edit List Name Form */}
       {editingListId && (
-        <div className="rounded-lg border border-foreground/10 p-4 bg-foreground/5">
-          <div className="flex gap-2">
+        <div className="no-print rounded-xl border border-border bg-surface-muted p-4">
+          <div className="flex flex-wrap gap-2">
             <input
               value={editingName}
               onChange={(e) => setEditingName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && saveListName()}
-              className="flex-1 rounded-md border border-foreground/20 bg-transparent px-3 py-2 outline-none focus:border-foreground/40"
+              className="min-w-[12rem] flex-1 rounded-xl border border-border bg-surface px-3 py-2 text-sm outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
               autoFocus
             />
             <button
+              type="button"
               onClick={saveListName}
-              className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90"
+              className="rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-hover"
             >
               Salvar
             </button>
             <button
+              type="button"
               onClick={() => {
                 setEditingListId(null);
                 setEditingName("");
               }}
-              className="rounded-md border border-foreground/20 px-4 py-2 text-sm hover:bg-foreground/10"
+              className="rounded-xl border border-border bg-surface px-4 py-2 text-sm font-medium transition hover:bg-surface-muted"
             >
               Cancelar
             </button>
@@ -390,26 +402,27 @@ export default function ShoppingListPage() {
       {selectedList && (
         <div className="space-y-4">
           {/* Input Field */}
-          <div className="flex gap-2">
+          <div className="no-print flex flex-wrap gap-2">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Digite um item ou escolha das sugestões abaixo..."
-              className="flex-1 rounded-md border border-foreground/20 bg-transparent px-3 py-2 outline-none focus:border-foreground/40"
+              className="min-w-[12rem] flex-1 rounded-xl border border-border bg-surface px-3 py-2.5 text-sm outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
             />
             <button
+              type="button"
               onClick={addItem}
-              className="rounded-md bg-foreground text-background px-4 py-2 text-sm font-medium hover:opacity-90"
+              className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-hover"
             >
               Adicionar
             </button>
           </div>
 
           {/* Quick Add Tags */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-medium text-foreground/80">
-              {input.trim() ? "Sugestões:" : "Adicionar rapidamente:"}
+          <div className="no-print space-y-3">
+            <h4 className="text-sm font-semibold text-muted">
+              {input.trim() ? "Sugestões" : "Adicionar rapidamente"}
             </h4>
 
             {/* Tags Display */}
@@ -419,9 +432,10 @@ export default function ShoppingListPage() {
                 .sort()
                 .map((tag) => (
                   <button
+                    type="button"
                     key={tag}
                     onClick={() => addItemFromTag(tag)}
-                    className="px-3 py-1 text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full border border-green-200 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
+                    className="rounded-full border border-primary/20 bg-primary-muted px-3 py-1 text-xs font-medium text-primary transition hover:border-primary/35 hover:bg-primary/10"
                   >
                     {tag}
                   </button>
@@ -429,27 +443,28 @@ export default function ShoppingListPage() {
             </div>
 
             {filteredTags.length === 0 && input.trim() && (
-              <p className="text-sm text-foreground/60 text-center py-2">
+              <p className="py-2 text-center text-sm text-muted">
                 Nenhum item encontrado para &quot;{input}&quot;
               </p>
             )}
           </div>
 
-          <ul className="divide-y divide-foreground/10 border border-foreground/10 rounded-md">
+          <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-surface shadow-sm print:shadow-none">
             {selectedList.items.length === 0 && (
-              <li className="p-4 text-sm text-foreground/70">
+              <li className="p-4 text-sm text-muted">
                 Nenhum item nesta lista.
               </li>
             )}
             {selectedList.items.map((item) => (
               <li
                 key={item.id}
-                className="flex items-center justify-between p-3"
+                className="flex items-center justify-between gap-3 p-3 print:py-2"
               >
-                <span>{item.name}</span>
+                <span className="text-foreground">{item.name}</span>
                 <button
+                  type="button"
                   onClick={() => removeItem(item.id)}
-                  className="text-sm text-foreground/70 hover:text-foreground"
+                  className="no-print text-sm font-medium text-muted hover:text-foreground"
                   aria-label={`Remover ${item.name}`}
                 >
                   Remover
@@ -458,16 +473,18 @@ export default function ShoppingListPage() {
             ))}
           </ul>
 
-          <div className="flex gap-2">
+          <div className="no-print flex flex-wrap gap-2">
             <button
+              type="button"
               onClick={copyList}
-              className="rounded-md border border-foreground/20 px-4 py-2 text-sm hover:bg-foreground/10"
+              className="rounded-xl border border-border bg-surface px-4 py-2 text-sm font-medium transition hover:bg-surface-muted"
             >
               Copiar
             </button>
             <button
+              type="button"
               onClick={printList}
-              className="rounded-md border border-foreground/20 px-4 py-2 text-sm hover:bg-foreground/10"
+              className="rounded-xl border border-border bg-surface px-4 py-2 text-sm font-medium transition hover:bg-surface-muted"
             >
               Imprimir
             </button>

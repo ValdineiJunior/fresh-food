@@ -12,10 +12,10 @@ function NavLink({ href, label }: { href: string; label: string }) {
     <Link
       href={href}
       className={
-        "px-3 py-2 rounded-md text-sm font-medium transition-colors " +
+        "rounded-full px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/50 " +
         (isActive
-          ? "bg-foreground text-background"
-          : "text-foreground/80 hover:text-foreground hover:bg-foreground/10")
+          ? "bg-primary text-white shadow-sm"
+          : "text-muted hover:bg-primary-muted hover:text-foreground")
       }
     >
       {label}
@@ -25,14 +25,20 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 export default function Header() {
   return (
-    <header className="w-full border-b border-foreground/10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="font-semibold tracking-tight text-lg">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
+        <Link
+          href="/"
+          className="font-display text-lg font-semibold tracking-tight text-foreground hover:text-primary transition-colors"
+        >
           Comida Fresca
         </Link>
-        <nav className="flex items-center gap-2">
+        <nav
+          className="flex flex-wrap items-center justify-end gap-1 sm:gap-2"
+          aria-label="Principal"
+        >
           <NavLink href="/" label="Início" />
-          <NavLink href="/shopping-list" label="Lista de Compras" />
+          <NavLink href="/shopping-list" label="Lista" />
           <NavLink href="/seasonal" label="Sazonal" />
           <NavLink href="/monthly" label="Mensal" />
         </nav>

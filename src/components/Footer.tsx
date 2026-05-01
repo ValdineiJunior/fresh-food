@@ -1,10 +1,10 @@
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-foreground/10 fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto max-w-5xl px-4 py-3 text-sm text-foreground/70 flex items-center justify-between">
+    <footer className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-background/95 backdrop-blur-md">
+      <div className="mx-auto flex max-w-5xl flex-col gap-1 px-4 py-3 text-center text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:text-left">
         <p>
-          © {new Date().getFullYear()} Comida Fresca. Feito para ajudar você a
-          comer de forma saudável e sustentável.
+          © {new Date().getFullYear()} Comida Fresca — alimentos frescos, de
+          forma simples e sustentável.
         </p>
       </div>
     </footer>
